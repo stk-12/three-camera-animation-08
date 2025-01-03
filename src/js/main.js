@@ -135,52 +135,21 @@ class Main {
       const plane = model.getObjectByName(mapping.name);
       if (plane) {
         const texture = this.textureLoader.load(mapping.texture, (tex) => {
-          this._applyTexture(tex, plane, 'cover');
+          this._applyTexture(tex, plane);
         });
       }
     });
   }
 
-  _applyTexture(texture, plane, mode = 'cover') {
-    // console.log(texture);
-    const imageAspect = texture.image.width / texture.image.height;
-    const planeAspect = 1; // Planeのアスペクト比（正方形なら1）
-  
-    // texture.wrapS = THREE.ClampToEdgeWrapping;
-    // texture.wrapT = THREE.ClampToEdgeWrapping;
-    texture.wrapS = THREE.ClampToEdgeWrapping;
-    texture.wrapT = THREE.ClampToEdgeWrapping;
-    texture.magFilter = THREE.LinearFilter; // 拡大時の補間設定
-    texture.minFilter = THREE.LinearFilter; // 縮小時の補間設定
+  _applyTexture(texture, plane) {
 
     const material = new THREE.MeshBasicMaterial({
       map: texture,
       transparent: true, // 背景を透過
     });
-  
-    if (mode === 'cover') {
-      if (imageAspect > planeAspect) {
-        texture.offset.x = (1 - planeAspect / imageAspect) / 2;
-        texture.repeat.set(planeAspect / imageAspect, 1);
-      } else {
-        texture.offset.y = (1 - imageAspect / planeAspect) / 2;
-        texture.repeat.set(1, imageAspect / planeAspect);
-      }
-    } else if (mode === 'contain') {
-      if (imageAspect > planeAspect) {
-        // 横長画像の場合
-        material.map.repeat.set(1, imageAspect / planeAspect);
-        material.map.offset.set(0, (1 - imageAspect / planeAspect) / 2);
-      } else {
-        // 縦長画像の場合
-        material.map.repeat.set(planeAspect / imageAspect, 1);
-        material.map.offset.set((1 - planeAspect / imageAspect) / 2, 0);
-      }
-    }
 
     texture.flipY = false; // テクスチャの上下反転を防ぐ
 
-    // plane.material = new THREE.MeshBasicMaterial({ map: texture, transparent: true });
     plane.material = material;
     plane.material.needsUpdate = true;
   }
