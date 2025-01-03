@@ -4,6 +4,7 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 import { gsap } from "gsap";
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
+import { FilterAnimation } from "./filterAnimation";
 
 import Lenis from '@studio-freight/lenis';
 
@@ -54,6 +55,8 @@ class Main {
       duration: 1.2,
     });
     this.lenis.stop();
+
+    this.filterAnimation = new FilterAnimation();
 
     this._init();
 
@@ -185,8 +188,11 @@ class Main {
   _loadAnimation() {
     const tlLoadAnimation = gsap.timeline();
     tlLoadAnimation.to('.js-ttl', {
-      opacity: 1,
+      // opacity: 1,
       delay: 0.3,
+      onComplete: () => {
+        this.filterAnimation.init();
+      }
     })
     .to('.js-ttl-txts', {
       y: 0,
@@ -206,15 +212,18 @@ class Main {
       scrollTrigger: {
         trigger: '.js-section-02',
         start: 'top 96%',
-        onLeaveBack: () => tlScrollAnimation.reverse(), // 逆再生させる
+        // onLeaveBack: () => tlScrollAnimation.reverse(), // 逆再生させる
+        onEnter: () => this.filterAnimation.hide(),
+        onLeaveBack: () => this.filterAnimation.show(),
+        
         // markers: true,
       }
     });
-    tlScrollAnimation.to('.js-ttl-txts', {
-      duration: 0.9,
-      ease: 'circ.inOut',
-      y: '-100%',
-    })
+    // tlScrollAnimation.to('.js-ttl-txts', {
+    //   duration: 0.9,
+    //   ease: 'circ.inOut',
+    //   y: '-100%',
+    // })
   }
 
   _init() {

@@ -70,15 +70,25 @@ canvas {
   line-height: 0.9;
   white-space: nowrap;
   opacity: 0;
+
+  filter: url(#filter-ttl);
+
   &__inner {
     display: block;
-    overflow: hidden;
+    // overflow: hidden;
   }
   &__txts {
     // line-height: 0.9;
     display: inline-block;
-    transform: translateY(100%);
+    // transform: translateY(100%);
   }
+}
+
+.svg-filter {
+  width: 0;
+  height: 0;
+  position: absolute;
+  pointer-events: none;
 }
 
 h2 {
