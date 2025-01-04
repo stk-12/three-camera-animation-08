@@ -9,11 +9,15 @@ export class FilterAnimation {
   }
 
   init() {
+    this.show();
+  }
+
+  show() {
     const tl = gsap.timeline({
       defaults: {
-        duration: 1.0,
-        delay: 0.4,
-        ease: 'power4.out',
+        duration: 0.8,
+        delay: 0.2,
+        ease: 'power2.out',
         onUpdate: () => {
           this.filterBlur.setAttribute('stdDeviation', this.primitiveValues.stdDeviation);
           // this.filterDisplacement.setAttribute('scale', this.primitiveValues.scale);
@@ -27,19 +31,15 @@ export class FilterAnimation {
      }, 0)
     .to(this.ttl, { 
       opacity: 1.0,
-      duration: 0.3,
+      duration: 0.4,
      }, 0)
-  }
-
-  show() {
-    this.init();
   }
 
   hide() {
     const tl = gsap.timeline({
       defaults: {
-        duration: 1.0,
-        ease: 'power4.out',
+        duration: 0.8,
+        ease: 'power2.out',
         onUpdate: () => {
           this.filterBlur.setAttribute('stdDeviation', this.primitiveValues.stdDeviation);
         }
@@ -51,7 +51,7 @@ export class FilterAnimation {
     }, 0)
     .to(this.ttl, { 
       opacity: 0,
-      duration: 0.6,
+      duration: 0.5,
      }, 0);
   }
 }
