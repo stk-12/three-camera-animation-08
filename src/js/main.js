@@ -89,7 +89,10 @@ class Main {
       this.animations = gltf.animations;
 
       // 各planeにテクスチャを適用
-      this._applyTextureToPlanes(model);
+      this._applyTextureToPlanes(model).then(() => {
+        this.scene.add(model);
+        this._loadAnimation();
+      });
 
       this.camera = gltf.cameras[0];
 
@@ -120,7 +123,7 @@ class Main {
       }
 
 
-      this.scene.add(model);
+      // this.scene.add(model);
 
       this._onResize();
 
@@ -131,18 +134,24 @@ class Main {
   }
 
   _applyTextureToPlanes(model) {
-    this.planeMappings.forEach(mapping => {
-      const plane = model.getObjectByName(mapping.name);
-      if (plane) {
-        const texture = this.textureLoader.load(mapping.texture, (tex) => {
-          this._applyTexture(tex, plane);
-        });
-      }
+    const promise = this.planeMappings.map(mapping => {
+      return new Promise((resolve) => {
+        const plane = model.getObjectByName(mapping.name);
+        if (plane) {
+          const texture = this.textureLoader.load(mapping.texture, (tex) => {
+            this._applyTexture(tex, plane);
+            resolve();
+          });
+        } else {
+          resolve();
+        }
+      });
     });
+
+    return Promise.all(promise);
   }
 
   _applyTexture(texture, plane) {
-
     const material = new THREE.MeshBasicMaterial({
       map: texture,
       transparent: true, // 背景を透過
@@ -198,7 +207,7 @@ class Main {
   _init() {
     this._addModel();
 
-    this._loadAnimation();
+    // this._loadAnimation();
     this._scrollAnimation();
   }
 
