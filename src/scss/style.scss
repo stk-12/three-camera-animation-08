@@ -1,15 +1,14 @@
-@import"https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap";
+@import url('https://fonts.googleapis.com/css2?family=Sigmar+One&display=swap');
 
 :root {
 }
 
 body {
-  font-family: Bebas Neue,cursive;
+  font-family: "Sigmar One", serif;
+  font-weight: 400;
   color: #fff;
   overflow-x: hidden;
-  // background: #f44336;
   background: #f4b436;
-
   position: relative;
 }
 
@@ -66,7 +65,8 @@ canvas {
 }
 
 .ttl {
-  font-size: min(20vw, 32vh);
+  font-size: min(12vw, 24vh);
+  font-weight: 400;
   line-height: 0.9;
   white-space: nowrap;
   opacity: 0;
@@ -93,4 +93,5 @@ canvas {
 
 h2 {
   font-size: 6vw;
+  font-weight: 400;
 }
