@@ -32,7 +32,37 @@ canvas {
   position: fixed;
   top: 0;
   left: 0;
+
+  opacity: 0;
+  transition: opacity 0.6s;
+
+  &.is-visible {
+    opacity: 1;
+  }
 }
+
+.loader {
+  width: 30px;
+  aspect-ratio: 1;
+  background: #fff;
+  position: fixed;
+  top: calc(50% - 15px);
+  left: calc(50% - 15px);
+  transition: opacity 0.4s;
+  animation: l1 1.2s infinite;
+  pointer-events: none;
+
+  &.is-hidden {
+    opacity: 0;
+  }
+}
+
+
+@keyframes l1 {
+  0%   {transform: perspective(150px) rotateX(0deg)}
+  100% {transform: perspective(150px) rotateX(180deg)}
+}
+
 
 .scroll {
   position: relative

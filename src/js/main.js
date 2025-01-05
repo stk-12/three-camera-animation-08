@@ -26,6 +26,7 @@ class Main {
     ];
 
     this.canvas = document.querySelector("#canvas");
+    this.loading = document.querySelector(".js-loader");
 
     this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
@@ -168,6 +169,10 @@ class Main {
     tlLoadAnimation.to('.js-ttl', {
       // opacity: 1,
       delay: 0.3,
+      onStart: () => {
+        this.canvas.classList.add('is-visible');
+        this.loading.classList.add('is-hidden');
+      },
       onComplete: () => {
         this.filterAnimation.init();
       }
